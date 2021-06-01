@@ -7,9 +7,9 @@ namespace TravellApi.Models
 {
     public class StateDto
     {
-        public int Id;
-        public string Text;
-        public bool IsFirst;
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public bool IsFirst { get; set; }
 
         public StateDto() {
             this.Id = 0;

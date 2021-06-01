@@ -17,6 +17,8 @@ namespace TravellApi.Data
         {
             List<StateDto> states = new List<StateDto>();
             states.Add(new StateDto(0, "Какова ваша цель?", true));
+            states.Add(new StateDto(1, "Какую страну хотите посетить?", false));
+            states.Add(new StateDto(4, "Классный курорт", false));
             return states;
 
         }

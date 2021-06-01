@@ -13,18 +13,24 @@ namespace TravellApi.Controllers
     [Route("api/[controller]")]
     public class StateController : Controller
     {
+        private readonly IStateRepository _stateRepository;
+
+        public StateController(IStateRepository stateRepository)
+        {
+            _stateRepository = stateRepository;
+        }
         // GET: api/state
         [HttpGet]
         public IEnumerable<StateDto> Get()
         {
-            return StateData.AllStates();
+            return _stateRepository.GetStateRecords();
         }
 
         // GET api/state/5
         [HttpGet("{id}")]
-        public ActionResult<StateDto> Get(int id)
+        public StateDto Get(int id)
         {
-            StateDto defaultState = new StateDto();
+            /*StateDto defaultState = new StateDto();
             List<StateDto> states = StateData.AllStates().Where(el => el.Id == id).ToList();
             if (states.Count > 0)
             {
@@ -34,39 +40,54 @@ namespace TravellApi.Controllers
             {
                 return NotFound();
                 
-            }
+            }*/
+
+            return _stateRepository.GetStateSingleRecord(id.ToString());
+
         }
 
         // GET api/state/first
         [HttpGet("first")]
-        public ActionResult<StateDto> GetFirst()
+        public StateDto GetFirst()
         {
-            StateDto first = StateData.FirstState();
-            if (first == null)
-            {
-                return NotFound();
-            } else
-            {
-                return new ObjectResult(first);
-            }
+            return _stateRepository.GetFirstState();
         }
 
         // POST api/state
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]StateDto state)
         {
+            if (ModelState.IsValid)
+            {
+                _stateRepository.AddStateRecord(state);
+                return Ok();
+            }
+            return BadRequest();
         }
 
         // PUT api/state/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]StateDto state)
         {
+            if (ModelState.IsValid)
+            {
+                _stateRepository.UpdateStateRecord(state);
+                return Ok();
+            }
+            return BadRequest();
         }
 
         // DELETE api/state/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var data = _stateRepository.GetStateSingleRecord(id.ToString());
+            if (data == null)
+            {
+                return NotFound();
+            }
+            _stateRepository.DeleteStateRecord(id.ToString());
+            return Ok();
         }
     }
 }
