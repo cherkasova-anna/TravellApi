@@ -7,7 +7,7 @@ using TravellApi.Models;
 namespace TravellApi.Data
 {
     public class StateData
-    {
+    { /*
         public static StateDto FirstState()
         {
             return new StateDto(0, "Какова ваша цель?", true);
@@ -21,6 +21,6 @@ namespace TravellApi.Data
             states.Add(new StateDto(4, "Классный курорт", false));
             return states;
 
-        }
+        }*/
     }
 }

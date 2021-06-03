@@ -13,45 +13,83 @@ namespace TravellApi.Controllers
     [Route("api/[controller]")]
     public class AnswerController : Controller
     {
+        private readonly IAnswerRepository _answerRepository;
+
+        public AnswerController(IAnswerRepository answerRepository)
+        {
+            _answerRepository = answerRepository;
+        }
         // GET: api/answer
-        [HttpGet]
         public IEnumerable<AnswerDto> Get()
         {
-            return AnswerData.AllAnswers();
+            return _answerRepository.GetAnswerRecords();
         }
 
         // GET api/answer/5
         [HttpGet("{id}")]
-        public IEnumerable<AnswerDto> Get(int id)
+        public IActionResult Get(int id)
         {
-            AnswerDto defaultAnswer = new AnswerDto();
-            List<AnswerDto> answers = AnswerData.AllAnswers().Where(el => el.IdFrom == id).ToList();
-            if (answers.Count > 0)
+            var answer = _answerRepository.GetAnswerSingleRecord(id);
+            if (answer != null)
             {
-                return answers;
+                return Ok(answer);
             }
             else
             {
-                return new List<AnswerDto>();
+                return NotFound();
+            }
+        }
+
+        // GET api/answer/from/5
+        [HttpGet("from/{id}")]
+        public IActionResult GetFirst(int id)
+        {
+            var answer = _answerRepository.GetAnswerFrom(id);
+            if (answer != null)
+            {
+                return Ok(answer);
+            }
+            else
+            {
+                return NotFound();
             }
         }
 
         // POST api/answer
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]AnswerDto answer)
         {
+            if (ModelState.IsValid)
+            {
+                _answerRepository.AddAnswerRecord(answer);
+                return Ok(answer);
+            }
+            return BadRequest();
         }
 
         // PUT api/answer/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]AnswerDto answer)
         {
+            if (ModelState.IsValid)
+            {
+                _answerRepository.UpdateAnswerRecord(answer);
+                return Ok(answer);
+            }
+            return BadRequest();
         }
 
         // DELETE api/answer/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var data = _answerRepository.GetAnswerSingleRecord(id);
+            if (data == null)
+            {
+                return NotFound();
+            }
+            _answerRepository.DeleteAnswerRecord(id);
+            return Ok();
         }
     }
 }

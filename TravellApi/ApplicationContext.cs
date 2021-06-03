@@ -13,6 +13,7 @@ namespace TravellApi
         public ApplicationContext(DbContextOptions options) : base(options) { }
 
         public DbSet<StateDto> States { get; set; }
+        public DbSet<AnswerDto> Answers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

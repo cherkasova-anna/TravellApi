@@ -10,8 +10,8 @@ namespace TravellApi.Data
     {
         void AddStateRecord(StateDto state);
         void UpdateStateRecord(StateDto state);
-        void DeleteStateRecord(string id);
-        StateDto GetStateSingleRecord(string id);
+        void DeleteStateRecord(int id);
+        StateDto GetStateSingleRecord(int id);
         StateDto GetFirstState();
         List<StateDto> GetStateRecords();
     }

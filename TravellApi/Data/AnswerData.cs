@@ -7,7 +7,7 @@ using TravellApi.Models;
 namespace TravellApi.Data
 {
     public class AnswerData
-    {
+    {/*
 
         public static List<AnswerDto> AllAnswers()
         {
@@ -19,6 +19,6 @@ namespace TravellApi.Data
             answers.Add(new AnswerDto(5, "Франция", 1, 5, false));
             return answers;
 
-        }
+        }*/
     }
 }

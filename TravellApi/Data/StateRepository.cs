@@ -21,9 +21,9 @@ namespace TravellApi.Data
             _context.SaveChanges();
         }
 
-        public void DeleteStateRecord(string id)
+        public void DeleteStateRecord(int id)
         {
-            var entity = _context.States.FirstOrDefault(t => t.Id.ToString() == id);
+            var entity = _context.States.FirstOrDefault(t => t.Id == id);
             _context.States.Remove(entity);
             _context.SaveChanges();
 
@@ -34,9 +34,9 @@ namespace TravellApi.Data
             return _context.States.ToList();
         }
 
-        public StateDto GetStateSingleRecord(string id)
+        public StateDto GetStateSingleRecord(int id)
         {
-            return _context.States.FirstOrDefault(t => t.Id.ToString() == id);
+            return _context.States.FirstOrDefault(t => t.Id == id);
         }
 
         public void UpdateStateRecord(StateDto state)

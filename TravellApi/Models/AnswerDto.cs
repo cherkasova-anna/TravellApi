@@ -7,11 +7,10 @@ namespace TravellApi.Models
 {
     public class AnswerDto
     {
-        public int Id;
-        public string Text;
-        public int IdFrom;
-        public int IdTo;
-        public bool IsEnd;
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public int IdFrom { get; set; }
+        public int IdTo { get; set; }
 
         public AnswerDto()
         {
@@ -19,16 +18,14 @@ namespace TravellApi.Models
             this.Text = "";
             this.IdFrom = 0;
             this.IdTo = 0;
-            this.IsEnd = false;
         }
 
-        public AnswerDto(int id, string text, int from, int to, bool end)
+        public AnswerDto(int id, string text, int from, int to)
         {
             this.Id = id;
             this.Text = text;
             this.IdFrom = from;
             this.IdTo = to;
-            this.IsEnd = end;
         }
     }
 }

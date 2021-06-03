@@ -33,6 +33,7 @@ namespace TravellApi
 
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(builder.ConnectionString));
             services.AddScoped<IStateRepository, StateRepository>();
+            services.AddScoped<IAnswerRepository, AnswerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

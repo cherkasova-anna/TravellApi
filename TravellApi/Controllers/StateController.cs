@@ -28,22 +28,16 @@ namespace TravellApi.Controllers
 
         // GET api/state/5
         [HttpGet("{id}")]
-        public StateDto Get(int id)
+        public IActionResult Get(int id)
         {
-            /*StateDto defaultState = new StateDto();
-            List<StateDto> states = StateData.AllStates().Where(el => el.Id == id).ToList();
-            if (states.Count > 0)
+            var state = _stateRepository.GetStateSingleRecord(id);
+            if (state != null)
             {
-                return new ObjectResult(states.ElementAt(0));
-            }
-            else
+                return Ok(_stateRepository.GetStateSingleRecord(id));
+            } else
             {
                 return NotFound();
-                
-            }*/
-
-            return _stateRepository.GetStateSingleRecord(id.ToString());
-
+            }           
         }
 
         // GET api/state/first
@@ -60,7 +54,7 @@ namespace TravellApi.Controllers
             if (ModelState.IsValid)
             {
                 _stateRepository.AddStateRecord(state);
-                return Ok();
+                return Ok(state);
             }
             return BadRequest();
         }
@@ -72,7 +66,7 @@ namespace TravellApi.Controllers
             if (ModelState.IsValid)
             {
                 _stateRepository.UpdateStateRecord(state);
-                return Ok();
+                return Ok(state);
             }
             return BadRequest();
         }
@@ -81,12 +75,12 @@ namespace TravellApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var data = _stateRepository.GetStateSingleRecord(id.ToString());
+            var data = _stateRepository.GetStateSingleRecord(id);
             if (data == null)
             {
                 return NotFound();
             }
-            _stateRepository.DeleteStateRecord(id.ToString());
+            _stateRepository.DeleteStateRecord(id);
             return Ok();
         }
     }
