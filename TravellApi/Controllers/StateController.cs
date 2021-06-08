@@ -14,10 +14,12 @@ namespace TravellApi.Controllers
     public class StateController : Controller
     {
         private readonly IStateRepository _stateRepository;
+        private readonly IAnswerRepository _answerRepository;
 
-        public StateController(IStateRepository stateRepository)
+        public StateController(IStateRepository stateRepository, IAnswerRepository answerRepository)
         {
             _stateRepository = stateRepository;
+            _answerRepository = answerRepository;
         }
         // GET: api/state
         [HttpGet]
@@ -81,6 +83,8 @@ namespace TravellApi.Controllers
                 return NotFound();
             }
             _stateRepository.DeleteStateRecord(id);
+            _answerRepository.DeleteAnswerRecord(id);
+
             return Ok();
         }
     }

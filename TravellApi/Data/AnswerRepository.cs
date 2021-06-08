@@ -24,8 +24,12 @@ namespace TravellApi.Data
 
         public void DeleteAnswerRecord(int id)
         {
-            var entity = _context.Answers.FirstOrDefault(t => t.Id == id);
-            _context.Answers.Remove(entity);
+            var entities = _context.Answers.Where(t => t.IdFrom == id || t.IdTo == id);
+            //_context.Answers.Remove(entity);
+            foreach (var entity in entities)
+            {
+                _context.Answers.Remove(entity);
+            }
             _context.SaveChanges();
 
         }
