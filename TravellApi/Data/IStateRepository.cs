@@ -8,7 +8,7 @@ namespace TravellApi.Data
 {
     public interface IStateRepository
     {
-        void AddStateRecord(StateDto state);
+        int AddStateRecord(StateDto state);
         void UpdateStateRecord(StateDto state);
         void DeleteStateRecord(int id);
         StateDto GetStateSingleRecord(int id);

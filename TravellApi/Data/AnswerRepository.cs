@@ -18,6 +18,7 @@ namespace TravellApi.Data
 
         public void AddAnswerRecord(AnswerDto answer)
         {
+            Console.WriteLine(answer);
             _context.Answers.Add(answer);
             _context.SaveChanges();
         }
@@ -52,6 +53,11 @@ namespace TravellApi.Data
         public List<AnswerDto> GetAnswerTo(int id)
         {
             return _context.Answers.Where(t => t.IdTo == id).ToList();
+        }
+
+        public AnswerDto GetAnswerFromTo(int from, int to)
+        {
+            return _context.Answers.FirstOrDefault(t => t.IdTo == to && t.IdFrom == from);
         }
 
         public void UpdateAnswerRecord(AnswerDto answer)

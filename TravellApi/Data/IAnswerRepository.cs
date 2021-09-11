@@ -14,6 +14,7 @@ namespace TravellApi.Data
         AnswerDto GetAnswerSingleRecord(int id);
         List<AnswerDto> GetAnswerFrom(int id);
         List<AnswerDto> GetAnswerTo(int id);
+        AnswerDto GetAnswerFromTo(int from, int to);
         List<AnswerDto> GetAnswerRecords();
     }
 }

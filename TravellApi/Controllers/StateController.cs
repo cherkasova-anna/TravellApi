@@ -51,11 +51,16 @@ namespace TravellApi.Controllers
 
         // POST api/state
         [HttpPost]
-        public IActionResult Post([FromBody]StateDto state)
+        public IActionResult Post([FromBody]StateAnswersDto state)
         {
             if (ModelState.IsValid)
             {
-                _stateRepository.AddStateRecord(state);
+                var id = _stateRepository.AddStateRecord(state);
+                foreach (AnswerDto answer in state.answers)
+                {
+                    answer.IdFrom = id;
+                    _answerRepository.AddAnswerRecord(answer);
+                }
                 return Ok(state);
             }
             return BadRequest();
@@ -63,11 +68,31 @@ namespace TravellApi.Controllers
 
         // PUT api/state/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]StateDto state)
+        public IActionResult Put(int id, [FromBody]StateAnswersDto state)
         {
             if (ModelState.IsValid)
             {
                 _stateRepository.UpdateStateRecord(state);
+                var old = _answerRepository.GetAnswerFrom(state.Id);
+
+                foreach(AnswerDto answer in state.answers)
+                {
+                    var res = _answerRepository.GetAnswerFromTo(answer.IdFrom, answer.IdTo);
+                    if (res != null)
+                    {
+                        _answerRepository.UpdateAnswerRecord(res);
+                    } else
+                    {
+                        _answerRepository.AddAnswerRecord(answer);
+                    }
+                }
+                foreach(AnswerDto answer in old)
+                {
+                    if (!state.answers.Contains(answer))
+                    {
+                        _answerRepository.DeleteAnswerRecord(answer.Id);
+                    }
+                }
                 return Ok(state);
             }
             return BadRequest();

@@ -15,10 +15,12 @@ namespace TravellApi.Data
             _context = context;
         }
 
-        public void AddStateRecord(StateDto state)
+        public int AddStateRecord(StateDto state)
         {
             _context.States.Add(state);
+            Console.WriteLine(state.Id);
             _context.SaveChanges();
+            return state.Id;
         }
 
         public void DeleteStateRecord(int id)
